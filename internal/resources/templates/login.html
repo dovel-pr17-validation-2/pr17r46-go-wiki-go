@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html data-theme="{{ .Theme }}">
+<head>
+    <title>{{t "login.title"}} - {{ .Config.Wiki.Title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Load before styles to preserve the no-flash theme initialization. -->
+    <script src="/static/js/theme-manager.js?={{getVersion}}"></script>
+    <link rel="stylesheet" href="/static/css/theme.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/buttons.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/dialog.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/css/forms.css?={{getVersion}}">
+    <link rel="stylesheet" href="/static/custom.css?={{getVersion}}">
+    <style>
+        /* Adapt login dialog to full page context */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            overflow: hidden;
+        }
+
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Make the login dialog behave like a standalone component */
+        .login-dialog {
+            position: relative;
+            display: block;
+            max-width: 400px;
+            width: 100%;
+            margin: 20px;
+            overflow: hidden;
+        }
+
+        .login-container {
+            padding: 30px;
+            overflow: visible;
+        }
+
+        /* Ensure proper form sizing */
+        .login-form {
+            width: 100%;
+        }
+
+        /* Hide close button on standalone login page */
+        .login-dialog .close-dialog {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-dialog active" dir="auto">
+        <div class="login-container">
+            <button class="close-dialog" aria-label="Close login dialog">
+                <i class="fa fa-times"></i>
+            </button>
+            <h2 class="login-title">{{ .Config.Wiki.Title }}</h2>
+            <div class="error-message" id="loginError" style="display: none;" data-error-message="{{t "login.error"}}"></div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="username">{{t "login.username"}}</label>
+                    <input type="text" id="username" name="username" autocomplete="username" autofocus required>
+                </div>
+                <div class="form-group">
+                    <label for="password">{{t "login.password"}}</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required>
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="keepLoggedIn" name="keepLoggedIn">
+                    <label for="keepLoggedIn">{{t "login.keep_logged_in"}}</label>
+                </div>
+                <p>{{t "login.private_notice"}}</p>
+                <button type="submit" class="login-button">{{t "login.button"}}</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/js/login.js?={{getVersion}}" defer></script>
+</body>
+</html>

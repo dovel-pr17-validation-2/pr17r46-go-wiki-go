@@ -1,0 +1,358 @@
+/* Form element styles */
+
+/* Form styles */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    color: var(--text-color);
+    font-size: 14px;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.form-group input[type="radio"],
+.form-group input[type="checkbox"] {
+    width: auto;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--primary-hover);
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-help {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+/* Custom checkbox styling */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.checkbox-group input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+.checkbox-group label {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 0;
+    user-select: none;
+    font-weight: normal;
+}
+
+.checkbox-group label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    transition: all 0.2s ease;
+}
+
+.checkbox-group label:after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg) scale(0);
+    width: 6px;
+    height: 10px;
+    border-right: 2px solid white;
+    border-bottom: 2px solid white;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+}
+
+.checkbox-group input[type="checkbox"]:checked + label:before {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.checkbox-group input[type="checkbox"]:checked + label:after {
+    transform: translateY(-75%) rotate(45deg) scale(1);
+    opacity: 1;
+}
+
+.checkbox-group input[type="checkbox"]:focus-visible + label:before {
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.3);
+}
+
+.checkbox-group input[type="checkbox"]:focus:not(:focus-visible) + label:before {
+    box-shadow: none;
+}
+
+.checkbox-group label:hover:before {
+    border-color: var(--primary-color);
+}
+
+/* ---------- Language selector styles ---------- */
+.language-selector {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    padding-right: 30px; /* Make room for the icon */
+}
+
+/* Add FontAwesome icon for dropdown arrow */
+.language-selector-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.language-selector-wrapper:after {
+    content: "\f107"; /* FontAwesome angle-down icon */
+    font-family: FontAwesome;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-color);
+}
+
+/* Timezone selector wrapper with two dropdowns */
+.timezone-selector-wrapper {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.timezone-selector-wrapper select {
+    flex: 1;
+    padding: 10px 35px 10px 12px;
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+.timezone-selector-wrapper select:hover {
+    border-color: var(--primary-hover);
+}
+
+.timezone-selector-wrapper select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.25);
+}
+
+.timezone-region-selector {
+    flex: 0.4 !important;
+    min-width: 140px;
+}
+
+.timezone-selector {
+    flex: 0.6 !important;
+}
+
+@media (max-width: 480px) {
+    .timezone-selector-wrapper {
+        flex-direction: column;
+    }
+
+    .timezone-region-selector,
+    .timezone-selector {
+        flex: 1 !important;
+        min-width: unset;
+    }
+}
+
+.language-selector:hover {
+    border-color: var(--primary-hover);
+}
+
+.language-selector:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.25);
+}
+
+.language-selector option {
+    padding: 10px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+/* Custom radio button styling */
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.radio-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+}
+
+.radio-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+.radio-option label {
+    position: relative;
+    padding-left: 28px;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0;
+    user-select: none;
+    font-weight: normal;
+    color: var(--text-color);
+}
+
+/* Radio circle */
+.radio-option label:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    background-color: var(--bg-color);
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+/* Inner dot */
+.radio-option label:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 50%;
+    transform: translateY(-50%) scale(0);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+}
+
+/* Checked state */
+.radio-option input[type="radio"]:checked + label:before {
+    border-color: var(--primary-color);
+}
+
+.radio-option input[type="radio"]:checked + label:after {
+    transform: translateY(-50%) scale(1);
+    opacity: 1;
+}
+
+/* Focus state */
+.radio-option input[type="radio"]:focus-visible + label:before {
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.3);
+}
+
+/* Hover state */
+.radio-option label:hover:before {
+    border-color: var(--primary-color);
+}
+
+/* Disabled state */
+.radio-option input[type="radio"]:disabled + label {
+    cursor: not-allowed;
+    opacity: 0.6;
+    color: var(--text-muted);
+}
+
+.radio-option input[type="radio"]:disabled + label:before {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+.radio-option input[type="radio"]:disabled:checked + label:after {
+    background-color: var(--text-muted);
+}
+
+/* Dark mode specific styles */
+:root[data-theme="dark"] .language-selector {
+    background-color: var(--code-bg);
+    border-color: var(--border-color);
+}
+
+:root[data-theme="dark"] .language-selector-wrapper:after {
+    color: #fff; /* White icon for dark mode */
+}
+
+:root[data-theme="dark"] .language-selector:hover {
+    border-color: var(--primary-hover);
+}

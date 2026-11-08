@@ -1,0 +1,1027 @@
+/* Editor structure styles */
+.editor-layout {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 330px);
+    background: var(--bg-color);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    margin-top: 0;
+    min-height: 300px; /* Ensure minimum height for very small screens */
+}
+
+.editor-area {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Editor styles */
+.editor-container {
+    display: none;
+    position: relative;
+    background: var(--bg-color);
+    padding: 0;
+    margin-bottom: 12px;
+}
+
+.editor-container.active {
+    display: block;
+}
+
+.editor-toolbar {
+    margin: 8px 0 12px 0;
+    padding: 0 16px;
+}
+
+/* Editor buttons */
+.editor-button {
+    padding: 8px 16px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.editor-button:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.editor-button.primary {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.editor-button.primary:hover {
+    opacity: 0.9;
+}
+
+/* Custom editor toolbar styles */
+.custom-toolbar {
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 4px 8px !important;
+    margin-top: 0 !important;
+    background: var(--sidebar-bg) !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.custom-toolbar button {
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 4px !important;
+    margin: 0 1px !important;
+    height: 28px;
+    width: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.custom-toolbar button:hover {
+    background: var(--hover-bg) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+.custom-toolbar button.active {
+    background-color: var(--hover-bg) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Custom table operation button styles */
+.custom-toolbar button.insert-row-button::after {
+    content: "↔";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--breadcrumb-color);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.insert-column-button::after {
+    content: "↕";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--breadcrumb-color);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.delete-row-button::after {
+    content: "↔";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--breadcrumb-color);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.delete-column-button::after {
+    content: "↕";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--breadcrumb-color);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.move-row-up-button,
+.custom-toolbar button.move-row-down-button {
+    position: relative;
+}
+
+.custom-toolbar button.move-row-up-button::after,
+.custom-toolbar button.move-row-down-button::after {
+    content: "↔";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--breadcrumb-color);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+.custom-toolbar button.move-column-left-button,
+.custom-toolbar button.move-column-right-button {
+    position: relative;
+}
+
+.custom-toolbar button.move-column-left-button::after,
+.custom-toolbar button.move-column-right-button::after {
+    content: "↕";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--breadcrumb-color);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+/* Column alignment button styles */
+.custom-toolbar button.align-column-left-button,
+.custom-toolbar button.align-column-center-button,
+.custom-toolbar button.align-column-right-button,
+.custom-toolbar button.align-column-none-button {
+    position: relative;
+}
+
+.custom-toolbar button.align-column-left-button::after,
+.custom-toolbar button.align-column-center-button::after,
+.custom-toolbar button.align-column-right-button::after,
+.custom-toolbar button.align-column-none-button::after {
+    content: "↕";
+    position: absolute;
+    font-size: 10px;
+    bottom: 1px;
+    right: 1px;
+    color: var(--breadcrumb-color);
+    font-weight: bold;
+    text-shadow: 0 0 1px var(--bg-color);
+}
+
+/* Hover states for table operation buttons */
+.custom-toolbar button.insert-row-button:hover::after,
+.custom-toolbar button.insert-column-button:hover::after,
+.custom-toolbar button.delete-row-button:hover::after,
+.custom-toolbar button.delete-column-button:hover::after,
+.custom-toolbar button.move-row-up-button:hover::after,
+.custom-toolbar button.move-row-down-button:hover::after,
+.custom-toolbar button.move-column-left-button:hover::after,
+.custom-toolbar button.move-column-right-button:hover::after,
+.custom-toolbar button.align-column-left-button:hover::after,
+.custom-toolbar button.align-column-center-button:hover::after,
+.custom-toolbar button.align-column-right-button:hover::after,
+.custom-toolbar button.align-column-none-button:hover::after {
+    color: var(--primary-color);
+}
+
+.custom-toolbar i.separator {
+    display: inline-block;
+    width: 0;
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid transparent;
+    color: transparent;
+    text-indent: -10px;
+    margin: 0 4px;
+    height: 28px;
+}
+
+/* Disabled toolbar buttons */
+.custom-toolbar button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+}
+
+.custom-toolbar button.disabled:hover {
+    background: transparent !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+/* Keep the preview button active even in preview mode */
+.custom-toolbar button.preview-button {
+    opacity: 1 !important;
+    cursor: pointer !important;
+}
+
+.custom-toolbar button.preview-button:hover {
+    background: var(--hover-bg) !important;
+    border-color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
+}
+
+/* Preview styles */
+.editor-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-color);
+    padding: 16px;
+    display: none;
+    overflow: auto;
+    font-family: var(--text-font);
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+.editor-preview-active {
+    display: block;
+}
+
+/* Full preview mode - preview takes full width */
+.editor-preview.editor-preview-full {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+}
+
+/* Split view mode styles */
+.editor-area.split-mode {
+    display: flex;
+}
+
+.editor-area.split-mode .custom-editor-wrapper {
+    width: var(--split-width);
+    border-right: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+
+.editor-area.split-mode .editor-preview {
+    width: var(--split-width);
+    position: relative;
+    display: block;
+    flex-shrink: 0;
+}
+
+/* Preview loading indicator */
+.preview-loading {
+    color: var(--breadcrumb-color);
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Fix for double-colored code blocks in preview */
+.editor-preview pre code {
+    background: transparent !important;
+    color: inherit !important;
+    border: none !important;
+    padding: 0 !important;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace !important;
+}
+
+/* Ensure proper styling for code blocks in preview */
+.editor-preview pre {
+    background-color: var(--code-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    padding: 0.5em;
+    margin: 0.5em 0;
+    overflow: auto;
+}
+
+/* Editor status bar */
+.editor-statusbar {
+    color: var(--text-color) !important;
+    background: var(--sidebar-bg) !important;
+    border-top: 1px solid var(--border-color) !important;
+    padding: 8px 10px;
+    font-size: 12px;
+    text-align: right;
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+}
+
+.editor-statusbar span {
+    display: inline-block;
+    min-width: 4em;
+    margin-left: 1em;
+}
+
+.editor-statusbar .lines:before {
+    content: 'lines: ';
+}
+
+.editor-statusbar .words:before {
+    content: 'words: ';
+}
+
+.editor-statusbar .cursor:before {
+    content: 'cursor: ';
+}
+
+/* CodeMirror theme overrides */
+.custom-editor-wrapper {
+    background: var(--bg-color);
+    display: block;
+    height: 100%;
+}
+
+.custom-editor-wrapper .CodeMirror {
+    color: var(--text-color);
+    background: var(--bg-color);
+    height: 100% !important;
+    max-height: none;
+    border: none;
+    font-family: 'Fira Code', Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+.custom-editor-wrapper .CodeMirror-scroll {
+    min-height: 100%;
+}
+
+/* Fix for line numbers and line highlighting */
+.custom-editor-wrapper .CodeMirror-gutters {
+    background-color: var(--hover-bg);
+    border-right: 1px solid var(--border-color);
+    width: 50px;
+}
+
+.custom-editor-wrapper .CodeMirror-linenumber {
+    color: var(--breadcrumb-color);
+    padding: 0 5px 0 5px;
+}
+
+.custom-editor-wrapper .CodeMirror-activeline-background {
+    background: rgba(var(--primary-rgb), 0.03);
+}
+
+.custom-editor-wrapper .CodeMirror-activeline-gutter {
+    background-color: var(--code-bg);
+}
+
+/* Cursor styles */
+.custom-editor-wrapper .CodeMirror-cursor {
+    border-left: 2px solid rgba(var(--primary-rgb), 0.4) !important;
+    margin-left: 0 !important;
+}
+
+/* Selection styles */
+.CodeMirror-selected {
+    background-color: rgba(var(--primary-rgb), 0.15) !important;
+}
+
+.CodeMirror-selectedtext {
+    background-color: rgba(var(--primary-rgb), 0.2) !important;
+    color: var(--text-color) !important;
+}
+
+::selection {
+    background-color: rgba(var(--primary-rgb), 0.2) !important;
+    color: var(--text-color) !important;
+}
+
+::-moz-selection {
+    background-color: rgba(var(--primary-rgb), 0.2) !important;
+    color: var(--text-color) !important;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header {
+    color: var(--text-color);
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-2 {
+    border-bottom-color: var(--border-color);
+}
+
+.custom-editor-wrapper .CodeMirror .CodeMirror-line .cm-header-2:after {
+    background-color: var(--border-color);
+}
+
+/* Heading styles for CodeMirror editor */
+.custom-editor-wrapper .CodeMirror .cm-header {
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-1,
+.custom-editor-wrapper .CodeMirror .cm-header-2,
+.custom-editor-wrapper .CodeMirror .cm-header-3 {
+    padding-top: 8px;
+    padding-bottom: 2px;
+}
+
+/* Headers size and styling */
+.custom-editor-wrapper .CodeMirror .cm-header-1 {
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-2 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-3 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-4 {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-5 {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+.custom-editor-wrapper .CodeMirror .cm-header-6 {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    display: inline;
+}
+
+/* Add bottom border effect for h2 headings in the editor */
+.custom-editor-wrapper .CodeMirror .CodeMirror-line .cm-header-2:after {
+    content: '';
+    display: block;
+    height: 1px;
+    background-color: var(--border-color);
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+}
+
+/* Fix for cursor in header lines */
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header) {
+    line-height: normal !important;
+}
+
+/* Adjust cursor height for different header levels */
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-1) .CodeMirror-cursor {
+    height: 32px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-2) .CodeMirror-cursor {
+    height: 24px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-3) .CodeMirror-cursor {
+    height: 20px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-4) .CodeMirror-cursor {
+    height: 18px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-5) .CodeMirror-cursor {
+    height: 16px !important;
+}
+
+.custom-editor-wrapper .CodeMirror-line:has(.cm-header-6) .CodeMirror-cursor {
+    height: 14px !important;
+}
+
+/* Editor preview styles */
+.editor-preview h1 {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.editor-preview h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.editor-preview h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.editor-preview h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.editor-preview h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.editor-preview h6 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+.editor-preview h1,
+.editor-preview h2,
+.editor-preview h3,
+.editor-preview h4,
+.editor-preview h5,
+.editor-preview h6 {
+    color: var(--text-color);
+}
+
+.editor-preview img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.5rem auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.editor-preview a          { color: var(--primary-color); text-decoration: none; }
+.editor-preview a:hover    { text-decoration: underline; }
+
+/* Table picker styles */
+.table-picker {
+    position: fixed;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    max-width: 320px;
+    width: auto;
+}
+
+.table-picker .cell {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid var(--border-color);
+    margin: 1px;
+    cursor: pointer;
+}
+
+.table-picker .cell.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Emoji picker styles */
+.emoji-picker {
+    position: fixed;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    max-width: 320px;
+    max-height: 300px;
+    overflow-y: auto;
+    width: auto;
+}
+
+.emoji-container {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 5px;
+}
+
+.emoji-picker .emoji-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background: transparent;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+/* Document and Anchor picker styles */
+.doc-picker, .anchor-picker {
+    position: fixed;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    max-width: 320px;
+    min-width: 260px;
+    max-height: 350px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    width: auto;
+    box-sizing: border-box;
+}
+
+.doc-search-container, .anchor-search-input {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.doc-search-input, .anchor-search-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 6px 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.docs-container, .anchor-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-height: 220px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.docs-loading {
+    padding: 20px;
+    text-align: center;
+    color: var(--breadcrumb-color);
+}
+
+.doc-btn, .anchor-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 6px 8px;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    color: var(--text-color);
+    max-width: 100%;
+}
+
+.doc-btn:hover, .anchor-btn:hover {
+    background: var(--hover-bg);
+    border-color: var(--primary-color);
+}
+
+.doc-name {
+    font-weight: bold;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    max-width: 100%;
+}
+
+.doc-path {
+    font-size: 12px;
+    color: var(--breadcrumb-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.no-results {
+    padding: 15px;
+    text-align: center;
+    color: var(--breadcrumb-color);
+    font-style: italic;
+}
+
+/* pickers combined styles */
+.emoji-btn:hover, .doc-btn:hover, .anchor-btn:hover {
+    background: var(--hover-bg);
+    border-color: var(--primary-color);
+}
+
+.anchor-picker-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.anchor-back-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-color);
+    font-size: 16px;
+    line-height: 1;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+.anchor-back-btn:hover {
+    background: var(--hover-bg);
+    color: var(--primary-color);
+}
+
+/* Prevent double scrollbars in anchor picker */
+.anchor-picker {
+    overflow-y: hidden;
+}
+
+.anchor-list-container {
+    max-height: 240px;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+
+.anchor-list-container {
+    flex: 1 1 auto;
+}
+
+/* Indentation based on heading level */
+.anchor-btn.level-2 { padding-left: 12px; }
+.anchor-btn.level-3 { padding-left: 24px; }
+.anchor-btn.level-4 { padding-left: 36px; }
+.anchor-btn.level-5 { padding-left: 48px; }
+.anchor-btn.level-6 { padding-left: 60px; }
+
+/* Specific class for sidebar blur state */
+.sidebar-blur {
+    pointer-events: none !important;
+    transition: filter 0.3s ease !important;
+}
+
+/* Fix text clipping on the right side in edit mode */
+.CodeMirror pre.CodeMirror-line { padding: 0 10px 0 5px !important;}
+
+/* Mobile responsive styles */
+@media (max-width: 950px) {
+    .editor-container {
+        margin: 0 -8px;
+        width: calc(100% + 16px);
+    }
+
+    .editor-toolbar {
+        padding: 0 8px;
+        margin: 4px 0 8px 0;
+    }
+
+    .editor-layout {
+        margin-top: 0;
+    }
+
+    /* Replace EasyMDEContainer with custom-editor-wrapper */
+    .custom-editor-wrapper {
+        border-radius: 0;
+    }
+
+    .custom-editor-wrapper .CodeMirror {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .custom-editor-wrapper .CodeMirror-code {
+        margin-left: 8px;
+    }
+
+    /* Adjust toolbar spacing for mobile */
+    .custom-toolbar {
+        padding: 3px 6px !important;
+        margin-top: 0 !important;
+    }
+
+    /* Mobile-specific fix for active line highlighting */
+    .custom-editor-wrapper .CodeMirror-activeline-background {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    .custom-editor-wrapper .CodeMirror-activeline-gutter {
+        background-color: transparent !important;
+        box-shadow: none !important;
+    }
+
+    /* Alternative subtle indicator for the active line */
+    .custom-editor-wrapper .CodeMirror-activeline .CodeMirror-linenumber {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    /* Ensure text is always visible */
+    .custom-editor-wrapper .CodeMirror-line {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Fix for the cursor being visible */
+    .custom-editor-wrapper .CodeMirror-cursor {
+        border-left: 2px solid rgba(var(--primary-rgb), 0.7) !important;
+    }
+
+    /* Editor sidebar blur behavior */
+    body.sidebar-active .editor-container,
+    body.sidebar-active .editor-layout,
+    body.sidebar-active .custom-editor-wrapper,
+    body.sidebar-active .CodeMirror,
+    body.sidebar-active .custom-toolbar,
+    body.sidebar-active .editor-statusbar,
+    body.sidebar-active .editor-preview,
+    body.sidebar-active .editor-preview-active {
+        pointer-events: none;
+        transition: filter 0.3s ease;
+    }
+
+    .editor-container,
+    .editor-layout,
+    .custom-editor-wrapper,
+    .CodeMirror,
+    .custom-toolbar,
+    .editor-statusbar {
+        pointer-events: auto;
+        transition: filter 0.3s ease;
+    }
+
+    .editor-preview.sidebar-blur,
+    .editor-area.sidebar-blur {
+        pointer-events: none !important;
+        transition: filter 0.3s ease !important;
+    }
+
+    /* Ensure content after overlay is consistent with main app */
+    body.sidebar-active::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 90;
+        backdrop-filter: blur(2px);
+    }
+
+    /* Mobile responsive heading styles */
+    .custom-editor-wrapper .CodeMirror .cm-header-1 {
+        font-size: 24px;
+    }
+
+    .custom-editor-wrapper .CodeMirror .cm-header-2 {
+        font-size: 20px;
+    }
+
+    .custom-editor-wrapper .CodeMirror .cm-header-3 {
+        font-size: 18px;
+    }
+
+    .custom-editor-wrapper .CodeMirror .cm-header-4 {
+        font-size: 16px;
+    }
+
+    .custom-editor-wrapper .CodeMirror .cm-header-5,
+    .custom-editor-wrapper .CodeMirror .cm-header-6 {
+        font-size: 14px;
+    }
+
+    /* Mobile responsive preview heading styles */
+    .editor-preview h1 {
+        font-size: 24px;
+    }
+
+    .editor-preview h2 {
+        font-size: 20px;
+    }
+
+    .editor-preview h3 {
+        font-size: 18px;
+    }
+
+    .editor-preview h4 {
+        font-size: 16px;
+    }
+
+    .editor-preview h5,
+    .editor-preview h6 {
+        font-size: 14px;
+    }
+
+    /* Mobile-specific emoji picker styles */
+    .emoji-picker {
+        max-width: calc(100vw - 40px);
+        max-height: 250px;
+        padding: 8px;
+    }
+
+    .emoji-container {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 4px;
+    }
+
+    .emoji-picker .emoji-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+
+    .doc-btn {
+        padding: 8px;
+    }
+
+    /* Mobile-specific table picker styles */
+    .table-picker {
+        max-width: calc(100vw - 40px);
+        padding: 8px;
+    }
+
+    .table-picker .cell {
+        width: 18px;
+        height: 18px;
+        margin: 2px;
+    }
+}
+
+/* Kanban preview styles */
+.editor-preview.kanban-preview {
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.editor-preview.kanban-preview .kanban-board {
+    min-height: 400px;
+}
+
+/* Ensure kanban cards are properly displayed in the preview */
+.editor-preview.kanban-preview .kanban-card {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,38 @@
+{{define "sidebar"}}
+<button class="hamburger" aria-label="Toggle menu">
+    <span class="hamburger-icon"></span>
+</button>
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a href="/" class="sidebar-title">
+            {{$logoPath := hasLogo .Config.Wiki.RootDir}}
+            {{if $logoPath}}
+            <div class="logo-container">
+                <img src="{{$logoPath}}" alt="" class="sidebar-logo">
+            </div>
+            {{end}}
+            <div class="title-text">{{.Config.Wiki.Title}}</div>
+        </a>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder='{{t "common.search"}}...' aria-label="{{t "common.search"}}">
+        </div>
+    </div>
+    <div class="nav-items" data-always-open="{{.Navigation.AlwaysOpen}}">
+        {{template "nav-items" .Navigation}}
+    </div>
+    <script src="/static/js/sidebar-navigation.js?={{getVersion}}"></script>
+    <div class="sidebar-footer">
+        <div class="owner">{{.Config.Wiki.Owner}}</div>
+        <div class="notice">{{processShortcodes .Config.Wiki.Notice}}</div>
+        <div class="sidebar-footer-buttons">
+            <button class="sidebar-footer-btn open-sitemap" aria-label="Sitemap" title="{{t "sitemap.title"}}" data-sitemap-url="/sitemap/">
+                <i class="fa fa-sitemap"></i>
+            </button>
+            <button class="sidebar-footer-btn" aria-label="Toggle theme">
+                <i class="fa fa-sun-o light-icon"></i>
+                <i class="fa fa-moon-o dark-icon" style="display: none;"></i>
+            </button>
+        </div>
+    </div>
+</div>
+{{end}}

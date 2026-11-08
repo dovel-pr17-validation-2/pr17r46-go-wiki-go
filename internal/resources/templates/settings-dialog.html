@@ -1,0 +1,319 @@
+{{define "settings-dialog"}}
+<!-- Settings dialog -->
+<div class="settings-dialog" dir="auto">
+    <div class="dialog-container">
+        <button class="close-dialog" aria-label="Close settings dialog">
+            <i class="fa fa-times"></i>
+        </button>
+        <h2 class="dialog-title">{{t "settings.title"}}</h2>
+        <div class="error-message"></div>
+
+        <div class="settings-tabs">
+            <button class="tab-button active admin-only-tab" data-tab="general-tab">{{t "settings.general"}}</button>
+            <button class="tab-button admin-only-tab" data-tab="security-tab">{{t "settings.security"}}</button>
+            <button class="tab-button admin-only-tab" data-tab="content-tab">{{t "settings.content"}}</button>
+            <button class="tab-button admin-only-tab" data-tab="users-tab">{{t "settings.users"}}</button>
+            <button class="tab-button admin-only-tab" data-tab="access-control-tab">{{t "settings.access"}}</button>
+            <button class="tab-button admin-only-tab" data-tab="import-tab">{{t "settings.import"}}</button>
+            <button class="tab-button admin-only-tab" data-tab="backup-tab">{{t "settings.backup"}}</button>
+            <button class="tab-button" data-tab="profile-tab">{{t "settings.profile"}}</button>
+        </div>
+
+        <div class="tab-content">
+            <div id="general-tab" class="tab-pane active">
+                <form class="settings-form" id="wikiSettingsForm">
+                    <div class="form-group">
+                        <label for="wikiTitle">{{t "settings.wiki_title"}}</label>
+                        <input type="text" id="wikiTitle" name="wikiTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="wikiOwner">{{t "settings.owner"}}</label>
+                        <input type="text" id="wikiOwner" name="wikiOwner" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="wikiNotice">{{t "settings.copyright_notice"}}</label>
+                        <input type="text" id="wikiNotice" name="wikiNotice" required>
+                    </div>
+                    <div class="form-group">
+                        <label>{{t "settings.timezone"}}</label>
+                        <div class="timezone-selector-wrapper">
+                            <select id="timezoneRegion" class="timezone-region-selector">
+                                <option value="">Select Region...</option>
+                            </select>
+                            <select id="wikiTimezone" name="wikiTimezone" class="timezone-selector" required>
+                                <option value="">Select Timezone...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="wikiLanguage">{{t "settings.language"}}</label>
+                        <div class="language-selector-wrapper">
+                            <select id="wikiLanguage" name="wikiLanguage" class="language-selector">
+                                {{range $lang := .AvailableLanguages}}
+                                    <option value="{{$lang}}" {{if eq $lang $.Config.Wiki.Language}}selected{{end}}>
+                                        {{t "language.self_name" $lang}}
+                                    </option>
+                                {{end}}
+                            </select>
+                        </div>
+                        <small class="form-help">{{t "settings.language_description"}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="wikiLogLevel">{{t "settings.log_level"}}</label>
+                        <div class="language-selector-wrapper">
+                            <select id="wikiLogLevel" name="wikiLogLevel" class="language-selector">
+                                <option value="debug">Debug</option>
+                                <option value="info">Info</option>
+                                <option value="warn">Warn</option>
+                                <option value="error">Error</option>
+                            </select>
+                        </div>
+                        <small class="form-help">{{t "settings.log_level_description"}}</small>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="dialog-button primary">{{t "common.save"}}</button>
+                        <button type="button" class="dialog-button cancel-settings">{{t "common.cancel"}}</button>
+                    </div>
+                </form>
+            </div>
+            <div id="security-tab" class="tab-pane">
+                <form class="settings-form" id="securitySettingsForm">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="loginBanEnabled" name="loginBanEnabled">
+                        <label for="loginBanEnabled">{{t "settings.login_ban_enabled"}}</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginBanMaxFailures">{{t "settings.login_ban_max_failures"}}</label>
+                        <input type="number" id="loginBanMaxFailures" name="loginBanMaxFailures" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginBanWindow">{{t "settings.login_ban_window"}}</label>
+                        <input type="number" id="loginBanWindow" name="loginBanWindow" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginBanInitial">{{t "settings.login_ban_initial"}}</label>
+                        <input type="number" id="loginBanInitial" name="loginBanInitial" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginBanMax">{{t "settings.login_ban_max"}}</label>
+                        <input type="number" id="loginBanMax" name="loginBanMax" min="1" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="dialog-button primary">{{t "common.save"}}</button>
+                        <button type="button" class="dialog-button cancel-settings">{{t "common.cancel"}}</button>
+                    </div>
+                </form>
+            </div>
+            <div id="content-tab" class="tab-pane">
+                <form class="settings-form" id="contentSettingsForm">
+                    <div class="form-group">
+                        <label for="wikiMaxVersions">{{t "settings.document_versions"}}</label>
+                        <input type="number" id="wikiMaxVersions" name="wikiMaxVersions" min="0" required>
+                        <small class="form-help">{{t "settings.document_versions_description"}}</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="wikiMaxUploadSize">{{t "settings.max_upload_size"}}</label>
+                        <input type="number" id="wikiMaxUploadSize" name="wikiMaxUploadSize" min="1" required>
+                        <small class="form-help">{{t "settings.max_upload_size_description"}}</small>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="wikiPrivate" name="wikiPrivate">
+                        <label for="wikiPrivate">{{t "settings.private_wiki"}}</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="wikiDisableComments" name="wikiDisableComments">
+                        <label for="wikiDisableComments">{{t "settings.disable_comments"}}</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="wikiDisableFileUploadChecking" name="wikiDisableFileUploadChecking">
+                        <label for="wikiDisableFileUploadChecking">{{t "settings.disable_file_upload_checking"}}</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="wikiEnableLinkEmbedding" name="wikiEnableLinkEmbedding">
+                        <label for="wikiEnableLinkEmbedding">{{t "settings.enable_link_embedding"}}</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="wikiHideAttachments" name="wikiHideAttachments">
+                        <label for="wikiHideAttachments">{{t "settings.hide_attachments"}}</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="wikiDisableContentMaxWidth" name="wikiDisableContentMaxWidth">
+                        <label for="wikiDisableContentMaxWidth">{{t "settings.disable_content_max_width"}}</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="wikiAlwaysOpenChildrenInSidebar" name="wikiAlwaysOpenChildrenInSidebar">
+                        <label for="wikiAlwaysOpenChildrenInSidebar">{{t "settings.always_open_children_in_sidebar"}}</label>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="dialog-button primary">{{t "common.save"}}</button>
+                        <button type="button" class="dialog-button cancel-settings">{{t "common.cancel"}}</button>
+                    </div>
+                </form>
+            </div>
+            <div id="users-tab" class="tab-pane">
+                <div class="users-management">
+                    <div class="users-list-container">
+                        <h3>{{t "users.title"}}</h3>
+                        <div class="users-list"></div>
+                    </div>
+                    <div class="user-form-container">
+                        <h3 id="user-form-title">{{t "users.add_user_title"}}</h3>
+                        <form id="userForm">
+                            <input type="hidden" id="userFormMode" value="create">
+                            <div class="form-group">
+                                <label for="userFormUsername">{{t "users.username"}}</label>
+                                <input type="text" id="userFormUsername" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="userFormPassword">{{t "users.password"}}</label>
+                                <input type="password" id="userFormPassword" name="password">
+                                <small class="form-help" id="password-help">{{t "users.password_help"}}</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="userRole">{{t "users.role"}}</label>
+                                <div class="language-selector-wrapper">
+                                    <select id="userRole" name="userRole" class="language-selector">
+                                        <option value="admin">{{t "users.role_admin"}}</option>
+                                        <option value="editor">{{t "users.role_editor"}}</option>
+                                        <option value="viewer">{{t "users.role_viewer"}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>{{t "access.access_groups"}}</label>
+                                <div class="groups-input-container">
+                                    <div id="userSelectedGroups" class="selected-groups">
+                                        <!-- Selected groups will be added here -->
+                                    </div>
+                                    <div class="add-group-wrapper">
+                                        <input type="text" id="userGroupInput" placeholder="{{t "access.add_group"}}">
+                                        <button type="button" id="addUserGroupBtn" class="dialog-button small"><i class="fa fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                <small class="form-help">{{t "users.groups_help"}}</small>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="dialog-button primary" id="saveUserBtn">{{t "users.add_button"}}</button>
+                                <button type="button" class="dialog-button" id="cancelUserBtn">{{t "users.clear_button"}}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="access-control-tab" class="tab-pane">
+                <div class="access-control-management">
+                    <p class="form-help">{{t "access.description"}}</p>
+                    <div class="access-rules-list-container">
+                        <div class="list-header">
+                            <h4>{{t "access.active_rules"}}</h4>
+                            <button id="addRuleBtn" class="dialog-button small primary">
+                                <i class="fa fa-plus"></i> {{t "access.add_rule"}}
+                            </button>
+                        </div>
+                        <div id="accessRulesList" class="access-rules-list">
+                            <!-- Rules will be populated here -->
+                        </div>
+
+                        <template id="access-rule-template">
+                            <div class="access-rule-item">
+                                <div class="rule-icon"></div>
+                                <div class="rule-content">
+                                    <div class="rule-header">
+                                        <span class="rule-title"></span>
+                                        <span class="rule-access-badge"></span>
+                                    </div>
+                                    <div class="rule-subtitle"></div>
+                                    <div class="rule-groups"></div>
+                                </div>
+                                <div class="rule-actions">
+                                    <button class="rule-action-btn move-up" title="{{t "common.move_up"}}"><i class="fa fa-arrow-up"></i></button>
+                                    <button class="rule-action-btn move-down" title="{{t "common.move_down"}}"><i class="fa fa-arrow-down"></i></button>
+                                    <button class="rule-action-btn edit-rule" title="{{t "common.edit"}}"><i class="fa fa-pencil"></i></button>
+                                    <button class="rule-action-btn delete-rule" title="{{t "common.delete"}}"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+            <div id="import-tab" class="tab-pane">
+                <form class="settings-form" id="importForm">
+                    <p class="form-help">{{t "import.description"}}</p>
+                    <div class="form-group">
+                        <label for="importZipFile">{{t "import.select_zip"}}</label>
+                        <input type="file" id="importZipFile" name="zipFile" accept=".zip">
+                        <small class="form-help">{{t "import.zip_help"}}</small>
+                    </div>
+                    <div class="import-progress-container" style="display: none;">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="importProgressBar"></div>
+                        </div>
+                        <div class="progress-status">
+                            <span id="importProgressText">0%</span>
+                            <span id="importProgressDetails"></span>
+                        </div>
+                    </div>
+                    <div class="import-results" style="display: none;">
+                        <h4>{{t "import.results_title"}}</h4>
+                        <div id="importResults" class="import-results-content"></div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="dialog-button primary" id="importButton">{{t "import.start_button"}}</button>
+                        <button type="button" class="dialog-button" id="cancelImportButton">{{t "common.cancel"}}</button>
+                    </div>
+                </form>
+            </div>
+            <div id="backup-tab" class="tab-pane">
+                <div class="backup-management">
+                    <p class="form-help">{{t "backup.description"}}</p>
+                    
+                    <div class="backup-actions" style="margin-bottom: 20px;">
+                        <button id="createBackupBtn" class="dialog-button primary">
+                            <i class="fa fa-archive"></i> {{t "backup.create_button"}}
+                        </button>
+                    </div>
+
+                    <div class="backup-progress-container" style="display: none; margin-bottom: 20px;">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="backupProgressBar"></div>
+                        </div>
+                        <div class="progress-status">
+                            <span id="backupProgressText">0%</span>
+                            <span id="backupProgressDetails"></span>
+                        </div>
+                    </div>
+
+                    <div class="files-management">
+                        <div class="files-list-container">
+                            <h3>{{t "backup.available_backups"}}</h3>
+                            <div id="backupList" class="files-list">
+                                <div class="empty-message">{{t "backup.loading"}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="profile-tab" class="tab-pane">
+                <form class="settings-form" id="profileForm">
+                    <div class="form-group">
+                        <label for="profileCurrentPassword">{{t "settings.current_password"}}</label>
+                        <input type="password" id="profileCurrentPassword" name="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profileNewPassword">{{t "settings.new_password"}}</label>
+                        <input type="password" id="profileNewPassword" name="newPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profileConfirmPassword">{{t "settings.confirm_password"}}</label>
+                        <input type="password" id="profileConfirmPassword" name="confirmPassword" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="dialog-button primary">{{t "common.save"}}</button>
+                        <button type="button" class="dialog-button cancel-settings">{{t "common.cancel"}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

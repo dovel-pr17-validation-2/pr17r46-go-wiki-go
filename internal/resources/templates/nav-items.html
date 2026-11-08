@@ -1,0 +1,27 @@
+{{define "nav-items"}}
+    {{$open := .AlwaysOpen}}
+    {{range .Root.Children}}
+        {{$hasChildren := and .IsDir (gt (len .Children) 0)}}
+        {{$hasActiveChild := false}}
+        {{range .Children}}
+            {{if .IsActive}}{{$hasActiveChild = true}}{{end}}
+        {{end}}
+        {{$serverOpen := or $open $hasActiveChild}}
+        <div class="nav-item {{if .IsDir}}directory{{end}} {{if .IsActive}}active{{end}} {{if $serverOpen}}open{{end}}">
+            <div class="nav-item-header">
+                <a href="{{.Path}}"{{if and $open $hasChildren}} class="with-nav-arrow"{{end}}>
+                    {{.Title}}
+                    {{if and $open $hasChildren}}<span class="nav-arrow" aria-hidden="true"></span>{{end}}
+                </a>
+                {{if and (not $open) $hasChildren}}
+                    <button type="button" class="nav-arrow" aria-label="Toggle {{.Title}}" aria-expanded="{{$serverOpen}}"></button>
+                {{end}}
+            </div>
+            {{if and .IsDir .Children}}
+                <div class="nav-children" style="padding-left: 16px;">
+                    {{template "nav-items" (dict "Root" . "AlwaysOpen" $open)}}
+                </div>
+            {{end}}
+        </div>
+    {{end}}
+{{end}}

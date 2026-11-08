@@ -1,0 +1,460 @@
+/* Content area and layout styles */
+
+
+.content {
+    margin-left: var(--sidebar-width);
+    padding: 32px 48px;
+    padding-top: 100px;
+    max-width: var(--content-max-width);
+    width: calc(100% - var(--sidebar-width));
+    min-height: 100vh;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Right-side chapter links panel (drawer mode).
+ * The panel is an off-canvas overlay at the right edge, shown/hidden by
+ * sliding it with a transform so the text inside never reflows during the
+ * animation. The main content area keeps its normal width and position. */
+.chapter-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(var(--chapter-links-width), 85vw);
+    height: 100vh;
+    padding: 20px 0 24px;
+    box-sizing: border-box;
+    overflow: visible;
+    background-color: var(--bg-color);
+    border-left: 1px solid var(--border-color);
+    z-index: 1002; /* Above sidebar overlay so it can be opened independently */
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* Suppress transitions during state restoration so the page renders in its
+ * final (expanded or retracted) form without a visible animation. */
+.chapter-links.no-animate {
+    transition: none !important;
+}
+
+.chapter-links.no-animate .chapter-links-body {
+    transition: none !important;
+}
+
+.chapter-links.retracted {
+    transform: translateX(100%);
+    border-left: none;
+    overflow: visible;
+}
+
+/* Pre-first-paint retract state applied to <html> by an inline script so the
+ * panel renders retracted without waiting for markdown-extensions.js. */
+html.chapter-links-retracted .chapter-links {
+    transform: translateX(100%);
+    border-left: none;
+    overflow: visible;
+}
+
+html.chapter-links-retracted .chapter-links + .chapter-links-toggle {
+    right: 0;
+    border-radius: 8px 0 0 8px;
+    border: 1px solid var(--border-color);
+    border-right: none;
+}
+
+html.chapter-links-retracted .chapter-links .chapter-links-body {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.chapter-links-body {
+    padding-block: 0;
+    padding-inline: 14px;
+    background: transparent;
+    opacity: 1;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.25s ease;
+}
+
+.chapter-links.retracted .chapter-links-body {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Toggle button sits just left of the panel (attached to the right edge when
+ * the panel is retracted). It is a sibling of the panel so it is never clipped
+ * by the panel's own overflow. */
+.chapter-links-toggle {
+    position: fixed;
+    top: 100px;
+    right: var(--chapter-links-width);
+    width: 28px;
+    height: 40px;
+    background: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-right: none;
+    border-radius: 8px 0 0 8px;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    padding: 0;
+    z-index: 1003;
+    transition: right 0.3s ease;
+}
+
+.chapter-links.retracted + .chapter-links-toggle {
+    right: 0;
+    border-radius: 8px 0 0 8px;
+    border: 1px solid var(--border-color);
+    border-right: none;
+}
+
+.chapter-links-toggle:hover {
+    color: var(--primary-color);
+    background-color: var(--hover-bg);
+}
+
+.chapter-links-toggle-text {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+}
+
+.chapter-links.retracted + .chapter-links-toggle .chapter-links-toggle-text,
+html.chapter-links-retracted .chapter-links + .chapter-links-toggle .chapter-links-toggle-text {
+    transform: rotate(225deg);
+}
+
+.chapter-links-toggle:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Tooltip label shown when the panel is retracted */
+.chapter-links-toggle-tooltip {
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%) translateX(-6px);
+    background: var(--sidebar-bg);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.chapter-links.retracted + .chapter-links-toggle:hover .chapter-links-toggle-tooltip {
+    opacity: 1;
+}
+
+/* Hidden on mobile: hover tooltips are not usable on touch devices */
+@media (max-width: 950px) {
+    .chapter-links-toggle-tooltip {
+        display: none;
+    }
+}
+
+.chapter-links-header {
+    flex: 0 0 auto;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    padding: 0 8px 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.chapter-links .wiki-toc {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+}
+
+.chapter-links .toc-title {
+    display: none;
+}
+
+/* Page title (top-level heading) in bold */
+.chapter-links .toc-level-1 > a {
+    font-weight: 600;
+}
+
+.chapter-links .toc-list {
+    margin: 0;
+    padding-inline-start: 0;
+}
+
+.chapter-links .toc-list li {
+    margin: 0 0 2px;
+    font-size: 0.875rem;
+    line-height: 1.35;
+}
+
+.chapter-links .toc-list-nested {
+    margin: 2px 0 0;
+    padding-inline-start: 0.75rem;
+}
+
+.chapter-links .toc-list a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+    padding: 5px 8px;
+    border-radius: 4px;
+    overflow-wrap: anywhere;
+    transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.chapter-links .toc-list a:hover {
+    color: var(--primary-color);
+    background-color: var(--hover-bg);
+    text-decoration: none;
+}
+
+.chapter-links .toc-list a:focus-visible {
+    color: var(--primary-color);
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+/* When retracted, the toggle tab attaches to the right edge of the screen. */
+.chapter-links.retracted + .chapter-links-toggle,
+html.chapter-links-retracted .chapter-links + .chapter-links-toggle {
+    right: 0;
+    border-radius: 8px 0 0 8px;
+    border: 1px solid var(--border-color);
+    border-right: none;
+}
+
+/* Class to allow full width content when needed */
+.full-width-content {
+    max-width: none !important;
+}
+
+.footer {
+    margin-top: auto;
+    padding: 20px 0;
+    border-top: 1px solid var(--border-color);
+    color: var(--breadcrumb-color);
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.footer-powered {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.footer-powered:hover {
+    text-decoration: underline;
+}
+
+.version {
+    font-size: 0.85em;
+    color: var(--breadcrumb-color);
+    opacity: 0.8;
+    display: none;
+}
+
+/* Directory listing */
+.directory-list {
+    margin-top: 8px;
+}
+
+.directory-item {
+    margin: 4px 0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    direction: ltr;
+}
+
+.directory-item:hover {
+    background-color: var(--hover-bg);
+}
+
+.directory-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+    display: block;
+    flex: 1;
+    unicode-bidi: plaintext;
+    text-align: left;
+}
+
+.directory-item a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+.directory-item.is-dir:before {
+    content: "📁";
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.directory-item.is-file:before {
+    content: "📄";
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+/* Narrow screens (just below the mobile breakpoint): make sure content fills the gap */
+@media (max-width: 950px) {
+    .content {
+        width: calc(100% - var(--sidebar-width));
+    }
+}
+
+/* ---------- Responsive styles ---------- */
+@media (max-width: 1080px) {
+    .toolbar-button .button-text { display: none; }
+}
+
+@media (max-width: 950px) {
+    /* Mobile layout */
+    body {
+        overflow-x: hidden;
+        padding: 0;
+        margin: 0;
+    }
+
+    .content {
+        margin-left: 0 !important;
+        padding: 48px 8px 16px 8px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        padding-top: 60px !important; /* Adjust for fixed header */
+    }
+
+    .content > *:not(.breadcrumbs):not(.footer) {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .content h1 {
+        margin-top: 8px !important;
+        font-size: 24px !important;
+    }
+
+    .content h2 {
+        font-size: 20px !important;
+        margin-top: 24px !important;
+    }
+
+    .content h3 {
+        font-size: 18px !important;
+    }
+
+    .content pre,
+    .content blockquote {
+        margin-left: -8px !important;
+        margin-right: -8px !important;
+        border-radius: 0 !important;
+        width: calc(100% + 16px) !important;
+        box-sizing: border-box !important;
+    }
+
+    .footer {
+        margin-top: auto !important;
+        padding: 16px 0 !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        text-align: center !important;
+    }
+
+    /* Mobile page toolbar */
+    .page-toolbar {
+        margin-bottom: 0px; /* Smaller bottom margin on mobile */
+    }
+
+    /* Mobile page actions */
+    .page-actions {
+        position: static;
+        padding-left: 8px;
+        margin-left: 0;
+    }
+
+    .page-actions-menu {
+        position: fixed;
+        top: 48px; /* Position below the header */
+        right: 8px;
+        margin-top: 0;
+        z-index: 1000;
+    }
+
+    .page-actions-button {
+        padding: 4px;
+    }
+
+    .page-actions-button .button-text {
+        display: none;
+    }
+
+    /* Mobile toolbar buttons */
+    .toolbar-button {
+        padding: 5px 10px; /* Slightly smaller padding on mobile */
+    }
+
+    .toolbar-button .button-text {
+        display: none;
+    }
+
+    /* Make confirmation dialog mobile friendly */
+    .confirmation-dialog .dialog-container {
+        width: calc(100% - 32px);
+        max-width: none;
+        margin: 0 16px;
+        padding: 16px;
+    }
+
+    .confirmation-dialog .dialog-title {
+        font-size: 1.2rem;
+        margin-top: 0;
+    }
+
+    .confirmation-dialog .form-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .confirmation-dialog .dialog-button {
+        width: 100%;
+    }
+}
